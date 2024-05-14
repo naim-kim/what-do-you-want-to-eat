@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome Icon Library -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <title> 뭐먹을래?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>뭐먹을래?</h1>
+        <h2>"다 좋은데?"</h2>
+    </header>
+
+    <main>
+        <section>
+            <p>라고 말하면서 또 오늘은 뭐 먹지 고민하고 계시나요?!
+                후후 걱정마세요! 제가 도와드리게요!!!
+            </p>
+            <button onclick="recommendFood()"><i class="fa fa-hand-o-right" aria-hidden="true"></i> 제발 추천좀..!</button>
+            <p id="recommendation"></p>
+        </section>
+
+        <div>
+            <a href="index.html" class="button" >Whoops take me back to Eng. version </a>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+    <script>
+        function recommendFood() {
+            var foods = ["피자", "초밥", "타코", "햄버거", "샐러드", "치킨", "쌀국수"];
+            var randomFood = foods[Math.floor(Math.random() * foods.length)];
+            document.getElementById("recommendation").innerHTML = randomFood + " 어때요!?!";
+        }
+    </script>
+</body>
+
+</html>
