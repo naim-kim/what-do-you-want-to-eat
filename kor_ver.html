@@ -19,43 +19,48 @@
     </header>
 
     <main>
-        <section>
-            <p>라고 말하면서 또 오늘은 뭐 먹지 고민하고 계시나요?!
-                후후 걱정마세요! 제가 도와드리게요!!!
-            </p>
-            <button onclick="recommendFood()"><i class="fa fa-hand-o-right" aria-hidden="true"></i> 제발 추천좀..!</button>
+        <section class="intro">
+            <p>라고 말하면서 또 오늘은 뭐 먹지 고민하고 계시나요?! 후후 걱정마세요! 제가 도와드리게요!!!</p>
+            <button class="recommend-btn" onclick="recommendFood()">
+                <i class="fa fa-hand-o-right" aria-hidden="true"></i> 제발 추천좀..!
+            </button>
             <p id="recommendation"></p>
         </section>
 
-        <section>
+        <section class="food-list">
             <h3>음식 목록</h3>
             <ul id="foodList"></ul>
             <input type="text" id="newFood" placeholder="새 음식 추가">
-            <button onclick="addFood()">추가</button>
+            <button class="add-btn" onclick="addFood()">추가</button>
         </section>
     </main>
 
     <footer>
-
+        <p>&copy; 2024 뭐먹을래?</p>
     </footer>
 
     <script>
-        var foods = ["피자", "초밥", "타코", "햄버거", "샐러드", "치킨", "쌀국수"];
+        // Initialize the food list from local storage or default list
+        var foods = JSON.parse(localStorage.getItem('foods')) || ["피자", "초밥", "타코", "햄버거", "샐러드", "치킨", "쌀국수"];
 
         function updateFoodList() {
             var foodList = document.getElementById("foodList");
             foodList.innerHTML = "";
-            foods.forEach(function(food, index) {
+            foods.forEach(function (food, index) {
                 var li = document.createElement("li");
                 li.textContent = food;
                 var deleteButton = document.createElement("button");
                 deleteButton.textContent = "삭제";
-                deleteButton.onclick = function() {
+                deleteButton.className = "delete-btn";
+                deleteButton.onclick = function () {
                     deleteFood(index);
                 };
                 li.appendChild(deleteButton);
                 foodList.appendChild(li);
             });
+
+            // Save the updated list to local storage
+            localStorage.setItem('foods', JSON.stringify(foods));
         }
 
         function recommendFood() {
@@ -64,20 +69,34 @@
         }
 
         function addFood() {
-            var newFood = document.getElementById("newFood").value;
-            if (newFood) {
+            var newFood = document.getElementById("newFood").value.trim();
+            if (newFood && !foods.includes(newFood)) {
                 foods.push(newFood);
                 document.getElementById("newFood").value = "";
                 updateFoodList();
+                showFeedback("음식이 추가되었습니다.");
+            } else {
+                showFeedback("유효한 음식 이름을 입력하세요.");
             }
         }
 
         function deleteFood(index) {
             foods.splice(index, 1);
             updateFoodList();
+            showFeedback("음식이 삭제되었습니다.");
         }
 
-        window.onload = function() {
+        function showFeedback(message) {
+            var feedback = document.createElement("div");
+            feedback.className = "feedback";
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+            setTimeout(function () {
+                feedback.remove();
+            }, 3000);
+        }
+
+        window.onload = function () {
             updateFoodList();
         };
     </script>
