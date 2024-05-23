@@ -6,12 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Font Awesome Icon Library -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <title> 뭐먹을래?</title>
+    <title>뭐먹을래?</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -30,20 +27,59 @@
             <p id="recommendation"></p>
         </section>
 
-        <div>
-            <a href="index.html" class="button" >Whoops take me back to Eng. version </a>
-        </div>
+        <section>
+            <h3>음식 목록</h3>
+            <ul id="foodList"></ul>
+            <input type="text" id="newFood" placeholder="새 음식 추가">
+            <button onclick="addFood()">추가</button>
+        </section>
     </main>
 
     <footer>
 
     </footer>
+
     <script>
+        var foods = ["피자", "초밥", "타코", "햄버거", "샐러드", "치킨", "쌀국수"];
+
+        function updateFoodList() {
+            var foodList = document.getElementById("foodList");
+            foodList.innerHTML = "";
+            foods.forEach(function(food, index) {
+                var li = document.createElement("li");
+                li.textContent = food;
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "삭제";
+                deleteButton.onclick = function() {
+                    deleteFood(index);
+                };
+                li.appendChild(deleteButton);
+                foodList.appendChild(li);
+            });
+        }
+
         function recommendFood() {
-            var foods = ["피자", "초밥", "타코", "햄버거", "샐러드", "치킨", "쌀국수"];
             var randomFood = foods[Math.floor(Math.random() * foods.length)];
             document.getElementById("recommendation").innerHTML = randomFood + " 어때요!?!";
         }
+
+        function addFood() {
+            var newFood = document.getElementById("newFood").value;
+            if (newFood) {
+                foods.push(newFood);
+                document.getElementById("newFood").value = "";
+                updateFoodList();
+            }
+        }
+
+        function deleteFood(index) {
+            foods.splice(index, 1);
+            updateFoodList();
+        }
+
+        window.onload = function() {
+            updateFoodList();
+        };
     </script>
 </body>
 
